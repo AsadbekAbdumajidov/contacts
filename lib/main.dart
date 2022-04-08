@@ -1,13 +1,12 @@
-import 'package:contact/routes/router.dart';
+import 'package:contact/core/components/buttom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  final RouteGenerateContact _forRouter = RouteGenerateContact();
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Contact app',
         theme: ThemeData.dark(),
-        initialRoute: '/',
-        onGenerateRoute: _forRouter.generateContact);
+        home: const BottomBar());
   }
 }
