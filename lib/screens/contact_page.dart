@@ -15,8 +15,33 @@ class ContactPage extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            body: Column(
-              children: [],
+            appBar: AppBar(
+              elevation: 0,
+              title: Row(children: [
+                Row(
+                  children: const [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("assets/png/Ellipse 13.png"),
+                    ),
+                    Text(
+                      "Contacts",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Ubuntu",
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [],
+                )
+              ]),
+            ),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: wi(16)),
+              child: Column(
+                children: [],
+              ),
             ),
           );
         },
