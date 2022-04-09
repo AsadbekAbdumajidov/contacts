@@ -1,8 +1,11 @@
 import 'package:contact/core/components/size_konfig.dart';
+import 'package:contact/core/constants/const_color.dart';
+import 'package:contact/core/constants/const_icon.dart';
 import 'package:contact/cubit/contact_cubit.dart';
 import 'package:contact/cubit/contact_state.dart';
 import 'package:cubit_form/cubit_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -33,7 +36,14 @@ class ContactPage extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [],
+                  children: [
+                    IconButton(
+                      splashRadius: 20,
+                      icon: SvgPicture.asset(ConstIcon.setting,
+                          color: ConstColor.white),
+                      onPressed: () {},
+                    ),
+                  ],
                 )
               ]),
             ),
