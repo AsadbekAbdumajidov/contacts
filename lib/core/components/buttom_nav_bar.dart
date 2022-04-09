@@ -1,11 +1,10 @@
 import 'package:contact/core/components/size_konfig.dart';
 import 'package:contact/core/constants/const_color.dart';
-import 'package:contact/screens/contact_page.dart';
-import 'package:contact/screens/history_page.dart';
-import 'package:contact/screens/new_page.dart';
-import 'package:contact/screens/profile_page.dart';
-import 'package:contact/screens/saved_page.dart';
+import 'package:contact/cubit/contact_cubit.dart';
+import 'package:contact/cubit/contact_state.dart';
+import 'package:cubit_form/cubit_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -15,47 +14,38 @@ class BottomBar extends StatefulWidget {
 }
 
 class _HomePageState extends State<BottomBar> {
-  ContactPage? _contactPage;
-  HistoryPage? _historyPage;
-  NewPage? _newPage;
-  SavedPage? _savedPage;
-  ProfilePage? _profile;
-
-  final List _pages = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    _contactPage = const ContactPage();
-    _historyPage = const HistoryPage();
-    _newPage = const NewPage();
-    _savedPage = const SavedPage();
-    _profile = const ProfilePage();
-
-    _pages.addAll([_contactPage, _historyPage, _newPage, _savedPage, _profile]);
-    debugPrint("$_pages");
-  }
-
-  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    return BlocProvider(
+      create: (context) => ContactBloc(),
+      child: BlocConsumer<ContactBloc, ContactState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return scaffold(context);
+        },
+      ),
+    );
+  }
+
+  Scaffold scaffold(BuildContext context) {
     return Scaffold(
-      body: _pages[currentIndex],
+      body: context
+          .read<ContactBloc>()
+          .pages[context.watch<ContactBloc>().currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 12,
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
         onTap: (v) {
-          setState(() {
-            currentIndex = v;
-          });
+        
+            context.read<ContactBloc>().addPages(v);
+
         },
         selectedItemColor: ConstColor.white,
         unselectedItemColor: ConstColor.selektColor,
-        currentIndex: currentIndex,
-        items:  [
+        currentIndex: context.watch<ContactBloc>().currentIndex,
+        items: [
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(bottom: he(7)),
@@ -65,28 +55,28 @@ class _HomePageState extends State<BottomBar> {
           ),
           BottomNavigationBarItem(
             icon: Padding(
-              padding:  EdgeInsets.only(bottom: he(7)),
+              padding: EdgeInsets.only(bottom: he(7)),
               child: const Icon(Icons.history),
             ),
             label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Padding(
-              padding:  EdgeInsets.only(bottom: he(7)),
+              padding: EdgeInsets.only(bottom: he(7)),
               child: const Icon(Icons.add_box_outlined),
             ),
             label: 'New',
           ),
           BottomNavigationBarItem(
             icon: Padding(
-              padding:  EdgeInsets.only(bottom: he(7)),
+              padding: EdgeInsets.only(bottom: he(7)),
               child: const Icon(Icons.bookmark_outline_sharp),
             ),
             label: 'Saved',
           ),
-         BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Padding(
-              padding:  EdgeInsets.only(bottom: he(7)),
+              padding: EdgeInsets.only(bottom: he(7)),
               child: const Icon(Icons.person),
             ),
             label: 'Profile',
