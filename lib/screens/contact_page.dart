@@ -1,15 +1,17 @@
+import 'package:contact/core/components/calendar_agenda.dart';
 import 'package:contact/core/components/size_konfig.dart';
-import 'package:contact/core/constants/const_color.dart';
 import 'package:contact/core/constants/const_icon.dart';
+import 'package:contact/core/widgets/app_bar_widget.dart';
+import 'package:contact/core/widgets/buttom_style_widget.dart';
+import 'package:contact/core/widgets/text_button_widget.dart';
 import 'package:contact/cubit/contact_cubit.dart';
 import 'package:contact/cubit/contact_state.dart';
+import 'package:contact/screens/filtr_page.dart';
 import 'package:cubit_form/cubit_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -18,40 +20,62 @@ class ContactPage extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              title: Row(children: [
-                Row(
-                  children: const [
-                    CircleAvatar(
-                      backgroundImage: AssetImage("assets/png/Ellipse 13.png"),
-                    ),
-                    Text(
-                      "Contacts",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Ubuntu",
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                Row(
+            appBar: HomeAppBar(
+                    title: "Contacts",
+                    rightIcon: ConstIcon.setting,
+                    leftIcon: Icons.search,
+                    leftOntap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => const FilterPage())));
+                    },
+                    rightOntap: () {})
+                .getBar(),
+            body: Column(
+              children: [
+                const Calendar(),
+                Column(
                   children: [
-                    IconButton(
-                      splashRadius: 20,
-                      icon: SvgPicture.asset(ConstIcon.setting,
-                          color: ConstColor.white),
-                      onPressed: () {},
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: he(15), horizontal: wi(15)),
+                      child: Row(
+                        children: [
+                          context.watch<ContactBloc>().son == 0
+                              ? ButtomStyle(title: "Contacts").getBar()
+                              : StyleText(title: "Contacts").getBar(),
+                          context.watch<ContactBloc>().son == 1
+                              ? ButtomStyle(title: "Invoice").getBar()
+                              : StyleText(title: "Invoice").getBar(),
+                        ],
+                      ),
                     ),
+                    SizedBox(
+                      height: he(430),
+                      width: double.infinity,
+                      child: PageView(
+                        onPageChanged: (value) {
+                          context.read<ContactBloc>().pageReload(value);
+                        },
+                        physics: const BouncingScrollPhysics(),
+                        children:  [
+                          SizedBox(
+                            child:Column(
+                              children: [],
+                            )
+                          ),
+                         const SizedBox(
+                            child: Center(
+                              child: Text("2"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 )
-              ]),
-            ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: wi(16)),
-              child: Column(
-                children: [],
-              ),
+              ],
             ),
           );
         },

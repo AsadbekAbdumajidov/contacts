@@ -21,4 +21,11 @@ class ContactBloc extends Cubit<ContactState> {
     currentIndex = v;
     emit(ButtomState());
   }
+
+  int son = 0;
+  pageReload(v) {
+    son = v;
+    emit(ButtomState());
+  }
+
 }
